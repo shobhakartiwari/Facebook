@@ -8,16 +8,17 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    var userNameTextField: UITextField!
-    var passwordTextField: UITextField!
-    var loginButton: UIButton!
+    //var userNameTextField: UITextField!
+    //var passwordTextField: UITextField!
+    //var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        //setupUI()
+        setupSignUp()
     }
     
-    func setupUI() {
+    /*func setupUI() {
         
         // Username textfield
         userNameTextField = UITextField()
@@ -111,12 +112,130 @@ class LoginViewController: UIViewController {
             
     }
     
+    */
     // Button tap action
-    @objc func buttonTapped() {
-        guard let name = userNameTextField.text, name.count > 0, let password = passwordTextField.text, password.count > 0 else {
-            view.backgroundColor = .red
-            return
+    // @objc func buttonTapped() {
+//        guard let name = userNameTextField.text, name.count > 0, let password = passwordTextField.text, password.count > 0 else {
+//            view.backgroundColor = .red
+//            return
+//        }
+//        view.backgroundColor = .green
+//    }
+            
+        // MARK: - UI Elements
+        
+        let fullNameTextField: UITextField = {
+            let tf = UITextField()
+            tf.placeholder = "Full Name"
+            tf.borderStyle = .roundedRect
+            tf.autocapitalizationType = .words
+            tf.translatesAutoresizingMaskIntoConstraints = false
+            return tf
+        }()
+        
+        let emailTextField: UITextField = {
+            let tf = UITextField()
+            tf.placeholder = "Email"
+            tf.borderStyle = .roundedRect
+            tf.keyboardType = .emailAddress
+            tf.autocapitalizationType = .none
+            tf.translatesAutoresizingMaskIntoConstraints = false
+            tf.heightAnchor.constraint(equalToConstant: 60).isActive = true
+            return tf
+        }()
+        
+        let passwordTextField: UITextField = {
+            let tf = UITextField()
+            tf.placeholder = "Password"
+            tf.borderStyle = .roundedRect
+            tf.isSecureTextEntry = true
+            tf.translatesAutoresizingMaskIntoConstraints = false
+            return tf
+        }()
+        
+        let confirmPasswordTextField: UITextField = {
+            let tf = UITextField()
+            tf.placeholder = "Confirm Password"
+            tf.borderStyle = .roundedRect
+            tf.isSecureTextEntry = true
+            tf.translatesAutoresizingMaskIntoConstraints = false
+            return tf
+        }()
+        
+        let signupButton: UIButton = {
+            let btn = UIButton(type: .system)
+            btn.setTitle("Sign Up", for: .normal)
+            btn.backgroundColor = .systemBlue
+            btn.setTitleColor(.white, for: .normal)
+            btn.layer.cornerRadius = 8
+            btn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            btn.translatesAutoresizingMaskIntoConstraints = false
+            return btn
+        }()
+        
+        let bottomLabel: UILabel = {
+            let lbl = UILabel()
+            lbl.text = "Already have an account? Login"
+            lbl.textAlignment = .center
+            lbl.textColor = .darkGray
+            lbl.font = UIFont.systemFont(ofSize: 14)
+            lbl.translatesAutoresizingMaskIntoConstraints = false
+            return lbl
+        }()
+        
+        // MARK: - Lifecycle
+        
+        func setupSignUp() {
+            
+            
+            // StackView for textfields + button
+            let stackView = UIStackView(arrangedSubviews: [
+                fullNameTextField,
+                emailTextField,
+                passwordTextField,
+                confirmPasswordTextField,
+                signupButton
+            ])
+            stackView.axis = .vertical
+            stackView.spacing = 15
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            
+            view.addSubview(stackView)
+            view.addSubview(bottomLabel)
+            
+            // Layout constraints
+            NSLayoutConstraint.activate([
+                // Center stackView with padding
+                stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+                stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+                
+                // Bottom label
+                bottomLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                bottomLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+                bottomLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+                bottomLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            ])
+            
+            // Button action
+            signupButton.addTarget(self, action: #selector(signupTapped), for: .touchUpInside)
         }
-        view.backgroundColor = .green
-    }
+        
+        // MARK: - Actions
+        
+        @objc func signupTapped() {
+            let name = fullNameTextField.text ?? ""
+            let email = emailTextField.text ?? ""
+            let password = passwordTextField.text ?? ""
+            let confirmPassword = confirmPasswordTextField.text ?? ""
+            
+            if name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty {
+                print("⚠️ Please fill in all fields.")
+            } else if password != confirmPassword {
+                print("⚠️ Passwords do not match.")
+            } else {
+                print("✅ Signup success for \(name) with email: \(email)")
+            }
+        }
 }

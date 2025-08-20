@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
         userNameTextField.textAlignment = .center
         userNameTextField.borderStyle = .roundedRect
         userNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(userNameTextField)
+        //view.addSubview(userNameTextField)
         
         //Password textfiled
         passwordTextField = UITextField()
@@ -34,7 +34,7 @@ class LoginViewController: UIViewController {
         passwordTextField.borderStyle = .roundedRect
         passwordTextField.isSecureTextEntry = true
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(passwordTextField)
+        //view.addSubview(passwordTextField)
         
         // create the button
         loginButton = UIButton(type: .system)
@@ -52,9 +52,24 @@ class LoginViewController: UIViewController {
         // add button to the view
         view.addSubview(loginButton)
         
+        
+        // add both the textfield horizontally
+        let textFieldStack = UIStackView(arrangedSubviews: [userNameTextField, passwordTextField])
+        textFieldStack.axis  = .horizontal
+        textFieldStack.distribution  = .fillEqually
+        textFieldStack.spacing  = 10
+        textFieldStack.translatesAutoresizingMaskIntoConstraints  = false
+        view.addSubview(textFieldStack)
+        
         // set constraints (center in the view)
         NSLayoutConstraint.activate([
             
+            textFieldStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textFieldStack.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30),
+            textFieldStack.widthAnchor.constraint(equalToConstant: 300),
+            textFieldStack.heightAnchor.constraint(equalToConstant: 40),
+            
+            /*
             // username textfield constraint
             userNameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             userNameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60), // x is positive --->> downward , -ve --->>> upward
@@ -66,10 +81,11 @@ class LoginViewController: UIViewController {
             passwordTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
             passwordTextField.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor),
             passwordTextField.heightAnchor.constraint(equalToConstant: 40),
+            */
             
             // Login button constraint added
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
+            loginButton.topAnchor.constraint(equalTo: textFieldStack.bottomAnchor, constant: 30),
 
             loginButton.widthAnchor.constraint(equalToConstant: 250),
             loginButton.heightAnchor.constraint(equalToConstant: 40)

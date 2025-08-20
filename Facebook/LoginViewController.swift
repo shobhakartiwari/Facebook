@@ -8,94 +8,78 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
-    //MARK: Properties
-    // User TextField
-    @IBOutlet weak var userTextField: UITextField!
-    
-    // Password TextField
-    @IBOutlet weak var passwordTextField: UITextField!
-    
-    // MARK: Life cycle methods
+    var userNameTextField: UITextField!
+    var passwordTextField: UITextField!
+    var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let navigationStack = self.navigationController?.viewControllers
+        setupUI()
+    }
+    
+    func setupUI() {
+        
+        // Username textfield
+        userNameTextField = UITextField()
+        userNameTextField.placeholder = "Enter Username"
+        userNameTextField.textAlignment = .center
+        userNameTextField.borderStyle = .roundedRect
+        userNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(userNameTextField)
+        
+        //Password textfiled
+        passwordTextField = UITextField()
+        passwordTextField.placeholder = "Enter Password"
+        passwordTextField.textAlignment = .center
+        passwordTextField.borderStyle = .roundedRect
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(passwordTextField)
+        
+        // create the button
+        loginButton = UIButton(type: .system)
+        // title
+        loginButton.setTitle("Login", for: .normal)
+        // background color
+        loginButton.backgroundColor = .systemBlue
+        // textcolor
+        loginButton.setTitleColor(UIColor.white, for: .normal)
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        //add the tap action
+        loginButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        // add button to the view
+        view.addSubview(loginButton)
+        
+        // set constraints (center in the view)
+        NSLayoutConstraint.activate([
+            
+            // username textfield constraint
+            userNameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            userNameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60), // x is positive --->> downward , -ve --->>> upward
+            userNameTextField.widthAnchor.constraint(equalToConstant: 250),
+            userNameTextField.heightAnchor.constraint(equalToConstant: 40),
+            
+            //password textfield constraint
+            passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passwordTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
+            passwordTextField.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 40),
+            
+            // Login button constraint added
+            loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loginButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
 
-        //print(navigationStack)
+            loginButton.widthAnchor.constraint(equalToConstant: 250),
+            loginButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+            
     }
     
-    // Called before the view appears on screen.
-    // Update UI with latest data, start animations, or adjust layout.
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        let navigationStack = self.navigationController?.viewControllers
-        //print(navigationStack)
-    }
-    
-    // Update frames or constraints before layout.
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-    }
-    
-    //Adjust final layouts, animations, or dynamic changes.
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
-    
-    // Called right after the view appears.
-    // Good for starting tasks that require the view to be visible (e.g., start animations, tracking, network calls)
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    // Called right before the view goes offscreen.
-    // Save data, cancel tasks, or hide keyboard.
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    // Called after the view disappears.
-    // Release heavy resources, stop timers, or stop animations.
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
-    //MARK: Button Action
-    
-    @IBAction func loginAction(_ sender: Any) {
-        if validate(user: userTextField.text) && validate(password: passwordTextField.text) {
-            print("Login Successfully")
-            navigateToNextScreen()
-        }
-        else {
-            print("Login Failed")
-        }
-    }
-    
-    // MARK: Helper Method
-    
-    func navigateToNextScreen() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let signUpVC = storyboard.instantiateViewController(withIdentifier: "SignUpViewController") as? SignUpViewController {
-            self.navigationController?.pushViewController(signUpVC, animated: true)
-        }
-    }
-    
-    func validate(user: String?) -> Bool {
-        guard let username = user, !username.isEmpty, username.count > 3 else {
-            return false
-        }
+    // Button tap action
+    @objc func buttonTapped() {
         
-        return true
-    }
-    
-    func validate(password: String?) -> Bool {
-        guard let password = password, !password.isEmpty, password.count > 3 else {
-            return false
-        }
-        
-        return true
+        print("Login Button Tapped!!, username: \(userNameTextField.text ?? "No username")")
     }
 }
-

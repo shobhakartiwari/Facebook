@@ -79,7 +79,10 @@ class LoginViewController: UIViewController {
     
     // Button tap action
     @objc func buttonTapped() {
-        
-        print("Login Button Tapped!!, username: \(userNameTextField.text ?? "No username")")
+        guard let name = userNameTextField.text, name.count > 0, let password = passwordTextField.text, password.count > 0 else {
+            view.backgroundColor = .red
+            return
+        }
+        view.backgroundColor = .green
     }
 }

@@ -55,11 +55,23 @@ class LoginViewController: UIViewController {
         
         // add both the textfield horizontally
         let textFieldStack = UIStackView(arrangedSubviews: [userNameTextField, passwordTextField])
-        textFieldStack.axis  = .horizontal
+        textFieldStack.axis  = .vertical
         textFieldStack.distribution  = .fillEqually
         textFieldStack.spacing  = 10
         textFieldStack.translatesAutoresizingMaskIntoConstraints  = false
         view.addSubview(textFieldStack)
+        
+        
+        // create a label
+        let copyRightLabel = UILabel()
+        copyRightLabel.text = "© 2025 Shobhakar Tiwari"
+        copyRightLabel.textAlignment = .center
+        copyRightLabel.translatesAutoresizingMaskIntoConstraints  = false
+        copyRightLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        copyRightLabel.backgroundColor = .cyan
+        view.addSubview(copyRightLabel)
+        
+        
         
         // set constraints (center in the view)
         NSLayoutConstraint.activate([
@@ -88,7 +100,13 @@ class LoginViewController: UIViewController {
             loginButton.topAnchor.constraint(equalTo: textFieldStack.bottomAnchor, constant: 30),
 
             loginButton.widthAnchor.constraint(equalToConstant: 250),
-            loginButton.heightAnchor.constraint(equalToConstant: 40)
+            loginButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            
+            copyRightLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            copyRightLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            copyRightLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9),
+            copyRightLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
             
     }
